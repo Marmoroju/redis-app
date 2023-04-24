@@ -45,6 +45,7 @@ pipeline {
         }
         stage ('upload docker image') {
             steps {
+                sleep (20)
                 script{
                     withCredentials([usernamePassword(credentialsID: 'nexus-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                         sh 'docker login -u $USERNAME -p $PASSWORD ${NEXUS_URL}'

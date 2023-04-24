@@ -43,17 +43,19 @@ pipeline {
                 sh 'docker-compose down'
             }
         }
-        stage ('upload docker image') {
-            steps {
+        stage('upload docker image'){
+            steps{
                 sh 'sleep 10'
                 script{
-                    withCredentials([usernamePassword(credentialsID: 'nexus-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        sh 'docker login ${NEXUS_URL} -u $USERNAME -p $PASSWORD'                        
+                    withCredentials([usernamePassword(credentialsId: 'nexus-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD' )]){
+                        sh 'docker login -u $USERNAME -p $PASSWORD ${NEXUS_URL}'
                         sh 'docker tag devops/app:latest ${NEXUS_URL}/devops/app'
                         sh 'docker push ${NEXUS_URL}/devops/app'
                     }
                 }
             }
         }
+       
+
     }
 }

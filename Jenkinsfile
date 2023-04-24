@@ -45,10 +45,10 @@ pipeline {
         }
         stage ('upload docker image') {
             steps {
-                sleep (20)
                 script{
                     withCredentials([usernamePassword(credentialsID: 'nexus-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        sh 'docker login -u $USERNAME -p $PASSWORD ${NEXUS_URL}'
+                        sh 'docker login ${NEXUS_URL} -u $USERNAME -p $PASSWORD'
+                        sh 'sleep 10'
                         sh 'docker tag devops/app:latest ${NEXUS_URL}/devops/app'
                         sh 'docker push ${NEXUS_URL}/devops/app'
                     }
